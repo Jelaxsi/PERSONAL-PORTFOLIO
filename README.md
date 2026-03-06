@@ -53,7 +53,7 @@ The portfolio includes a **contact form powered by EmailJS**, allowing visitors 
 You can view the live portfolio here:
 
 ```
-(Add your portfolio link here)
+https://jelaxsi.github.io/PERSONAL-PORTFOLIO/
 ```
 
 ---

@@ -114,20 +114,48 @@ contactForm.addEventListener('submit', function(event) {
         });
 });
 
-// 5. Scroll Reveal (Optional simple animation)
-window.addEventListener('scroll', reveal);
+// 5. Scroll Reveal (IntersectionObserver for smoother animations)
+function setupScrollReveal() {
+    const targets = document.querySelectorAll(
+        [
+            '.hero',
+            '.hero-content',
+            '.hero-img',
+            '.heading',
+            '.about-content',
+            '.about-text',
+            '.skills-container',
+            '.education-item',
+            '.projects-container',
+            '.resume-container',
+            '#contact form',
+            '.footer',
+            '.project-card',
+            '.cert-card',
+            '.education-container',
+            '.cert-category',
+            '.cert-group-title'
+        ].join(', ')
+    );
 
-function reveal(){
-    var reveals = document.querySelectorAll('.project-card, .cert-card, .about-content');
-
-    for(var i = 0; i < reveals.length; i++){
-        var windowheight = window.innerHeight;
-        var revealtop = reveals[i].getBoundingClientRect().top;
-        var revealpoint = 150;
-
-        if(revealtop < windowheight - revealpoint){
-            reveals[i].style.opacity = '1';
-            reveals[i].style.transform = 'translateY(0)';
-        }
+    if (!('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('in-view'));
+        return;
     }
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('in-view');
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.15 }
+    );
+
+    targets.forEach((el) => observer.observe(el));
 }
+
+document.addEventListener('DOMContentLoaded', setupScrollReveal);
